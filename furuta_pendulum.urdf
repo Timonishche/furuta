@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<robot name="furuta_pendulum">
+
+  <!-- основание -->
+  <link name="base_link">
+    <inertial>
+      <mass value="1.0"/>
+      <origin xyz="0 0 0.04" rpy="0 0 0"/>
+      <inertia ixx="0.001" ixy="0" ixz="0"
+               iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+
+    <!-- корпус-->
+    <visual>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.015" length="0.06"/>
+      </geometry>
+      <material name="post_gray">
+        <color rgba="0.25 0.25 0.28 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.03" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.015" length="0.06"/>
+      </geometry>
+    </collision>
+
+    <!-- движок -->
+    <visual>
+      <origin xyz="0 0 0.0675" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.03035" length="0.015"/>
+      </geometry>
+      <material name="stator_dark">
+        <color rgba="0.2 0.2 0.25 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.0675" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.03035" length="0.015"/>
+      </geometry>
+    </collision>
+
+    <!-- подшипник -->
+    <visual>
+      <origin xyz="0 0 0.074" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.031" length="0.002"/>
+      </geometry>
+      <material name="accent">
+        <color rgba="0.45 0.45 0.5 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- горизонтальный вал -->
+  <joint name="arm_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="arm_link"/>
+    <origin xyz="0 0 0.075" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>  <!-- Вращение вокруг вертикальной оси Z -->
+    <dynamics damping="0.0002" friction="0.0002"/>
+  </joint>
+
+  <link name="arm_link">
+    <inertial>
+      <mass value="0.076"/>
+      <origin xyz="0 0 0.005" rpy="0 0 0"/>
+      <inertia ixx="0.00001" ixy="0" ixz="0"
+               iyy="0.00001" iyz="0" izz="0.00001"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0 0 0.005" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.03035" length="0.010"/>
+      </geometry>
+      <material name="rotor_silver">
+        <color rgba="0.55 0.55 0.6 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.005" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.03035" length="0.010"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.03035 0 0.005" rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.006"/>
+      </geometry>
+      <material name="bearing_outer">
+        <color rgba="0.45 0.45 0.50 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0.03035 0 0.005" rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder radius="0.005" length="0.006"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.03035 0 0.005" rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder radius="0.0025" length="0.007"/>
+      </geometry>
+      <material name="bearing_inner">
+        <color rgba="0.65 0.65 0.70 1"/>
+      </material>
+    </visual>
+
+    <visual>
+      <origin xyz="0 0 0.011" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0065" length="0.004"/>
+      </geometry>
+      <material name="hole_dark">
+        <color rgba="0.15 0.15 0.15 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <!-- маятник -->
+  <joint name="pendulum_joint" type="continuous">
+    <parent link="arm_link"/>
+    <child link="pendulum_link"/>
+    <origin xyz="0.03035 0 0.005" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>  <!-- Вращение вокруг горизонтальной оси X -->
+    <dynamics damping="0.000002" friction="0.00002"/>
+  </joint>
+
+  <link name="pendulum_link">
+    <inertial>
+      <mass value="0.013"/>
+      <origin xyz="0.02654 0 -0.03077" rpy="0 0 0"/>
+      <inertia ixx="0.000009" ixy="0" ixz="0.000001"
+               iyy="0.000009" iyz="0" izz="0.0000009"/>
+    </inertial>
+
+    <visual>
+      <origin xyz="0.015 0 0" rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder radius="0.0025" length="0.030"/>
+      </geometry>
+      <material name="shaft_steel">
+        <color rgba="0.6 0.6 0.65 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0.015 0 0" rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder radius="0.0025" length="0.030"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.030 0 -0.04" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0025" length="0.08"/>
+      </geometry>
+      <material name="rod_red">
+        <color rgba="0.85 0.15 0.15 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0.030 0 -0.04" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0025" length="0.08"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0.030 0 -0.08" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="0.004"/>
+      </geometry>
+      <material name="tip_red">
+        <color rgba="1.0 0.2 0.2 1"/>
+      </material>
+    </visual>
+
+  </link>
+
+</robot>
